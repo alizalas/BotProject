@@ -25,7 +25,7 @@ class Film(SqlAlchemyBase):
 
     link = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
-    cover = sqlalchemy.Column(sqlalchemy.Binary, nullable=True)
+    cover = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     user_id = sqlalchemy.Column(sqlalchemy.Integer,
                                 sqlalchemy.ForeignKey("users.id"))
