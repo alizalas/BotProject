@@ -9,9 +9,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/data/__all_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/__all_models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/data/books.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/books.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/data/films.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/films.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyProject/data/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/data/users.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +44,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.add.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.search.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -57,6 +61,7 @@
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="TelegramBotProject" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>

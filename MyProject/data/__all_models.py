@@ -4,4 +4,3 @@ from . import directors
 from . import books
 from . import books_genres
 from . import authors
-from . import users

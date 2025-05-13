@@ -22,6 +22,4 @@ class Book(SqlAlchemyBase):
 
     cover = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    user_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                sqlalchemy.ForeignKey("users.id"))
-    user = orm.relationship('User')
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, unique=True)
