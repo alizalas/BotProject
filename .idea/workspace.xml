@@ -4,16 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88806c9a-7f1a-4f2e-a062-0fde44e77403" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/TelegramBotProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TelegramBotProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="88806c9a-7f1a-4f2e-a062-0fde44e77403" name="Changes" comment="3 коммит">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/add.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/add.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyProject/data/__all_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/__all_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/data/authors.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/authors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/data/books.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/books.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/data/books_genres.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/books_genres.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/data/directors.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/directors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/data/films.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/films.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyProject/data/users.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/data/films_genres.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/data/films_genres.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/db/films_books.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyProject/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyProject/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyProject/search.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +49,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.add.executor": "Run",
+    "Python.functions.executor": "Run",
     "Python.main.executor": "Run",
     "Python.search.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -98,6 +103,19 @@
       <option name="presentableId" value="Default" />
       <updated>1746686708923</updated>
     </task>
+    <task id="LOCAL-00001" summary="3 коммит">
+      <option name="closed" value="true" />
+      <created>1747170310312</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1747170310312</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="3 коммит" />
+    <option name="LAST_COMMIT_MESSAGE" value="3 коммит" />
   </component>
 </project>

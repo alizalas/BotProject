@@ -1,11 +1,13 @@
 import logging
 from telegram.ext import Application, MessageHandler, filters, CommandHandler, CallbackQueryHandler, ConversationHandler
 from telegram import ReplyKeyboardMarkup
-from config import BOT_TOKEN
-from functions import format_item_message
-from . import add
-from . import search
-from .data import db_session
+from MyProject.data.books import Book
+from MyProject.data.films import Film
+from MyProject.config import BOT_TOKEN, PAGINATION_CNT
+from MyProject.functions import first_result_format, pagination
+from MyProject import add
+from MyProject import search
+from MyProject.data import db_session
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
@@ -14,8 +16,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-reply_keyboard = [['/add', '/catalog'],
-                  ['/search', '/help'],
+reply_keyboard = [['/book_catalog', '/film_catalog'],
+                  ['/add', '/search'],
+                  ['/start', '/help'],
                   ['/export', '/import']]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)
 
@@ -26,9 +29,10 @@ async def start(update, context):
         📚🎬 Добро пожаловать в каталогизатор книг и фильмов!
         
         Доступные команды:
+        /book_catalog - показать каталог книг
+        /film_catalog - показать каталог фильмов
         /add - добавить книгу или фильм
-        /list - показать весь каталог
-        /catalog - поиск по каталогу
+        /search - поиск по каталогу
         /export - экспорт в CSV
         /import - импорт из CSV
         /help - справка по командам
@@ -60,36 +64,37 @@ async def help(update, context):
         parse_mode='HTML')
 
 
-async def catalog(update, context):
+async def catalog_books(update, context):
     session = db_session.create_session()
-    books = session.query(Book).filter(Book.user_id == update.effective_user.id)
-    films = session.query(Film).filter(Film.user_id == update.effective_user.id)
+    results = session.query(Book).filter(Book.user_id == update.effective_user.id).all()
+    context.user_data['results'] = results
+    context.user_data['type'] = "book"
 
-    if not books:
+    if not results:
         await update.message.reply_text("😔 Ваш каталог книг пуст.")
+        return
 
-    for item in books:
-        message = format_item_message(item, "book")
-        if item.cover and os.path.exists(item.cover):
-            await update.message.reply_photo(
-                photo=open(item.cover, 'rb'),
-                caption=message
-            )
-        else:
-            await update.message.reply_text(message)
+    await update.message.reply_text(f"🔍 В Вашем каталоге {len(results)} книг ({(len(results) + PAGINATION_CNT - 1) // PAGINATION_CNT} страниц):")
+    await first_result_format(update, context, update.message.chat_id)
+        # if item.cover and os.path.exists(item.cover):
+        #     await update.message.reply_photo(
+        #         photo=open(item.cover, 'rb'),
+        #         caption=message
+        #     )
 
-    if not films:
+
+async def catalog_films(update, context):
+    session = db_session.create_session()
+    results = session.query(Film).filter(Film.user_id == update.effective_user.id).all()
+    context.user_data['results'] = results
+    context.user_data['type'] = "film"
+
+    if not results:
         await update.message.reply_text("😔 Ваш каталог фильмов пуст.")
+        return
 
-    for item in books:
-        message = format_item_message(item, "film")
-        if item.cover and os.path.exists(item.cover):
-            await update.message.reply_photo(
-                photo=open(item.cover, 'rb'),
-                caption=message
-            )
-        else:
-            await update.message.reply_text(message)
+    await update.message.reply_text(f"🔍 В Вашем каталоге {len(results)} фильмов ({(len(results) + PAGINATION_CNT - 1) // PAGINATION_CNT} страниц):")
+    await first_result_format(update, context, update.message.chat_id)
 
 
 def main():
@@ -98,7 +103,9 @@ def main():
 
     application.add_handler(CommandHandler("start", start))
 
-    application.add_handler(CommandHandler("catalog", catalog))
+    application.add_handler(CommandHandler("book_catalog", catalog_books))
+
+    application.add_handler(CommandHandler("film_catalog", catalog_films))
 
     application.add_handler(CommandHandler("help", help))
 
@@ -132,12 +139,11 @@ def main():
             search.TYPE: [CallbackQueryHandler(search.second_step)],
             search.SEARCH_QUERY: [MessageHandler(filters.TEXT, search.third_step)]
         },
-        fallbacks=[CommandHandler('cancel', cancel_search)]
+        fallbacks=[CommandHandler('cancel', search.cancel)]
     )
     application.add_handler(search_conversation)
 
-    # Кнопки пагинации
-    dispatcher.add_handler(CallbackQueryHandler(handle_pagination, pattern="^search:"))
+    application.add_handler(CallbackQueryHandler(pagination, pattern=r"^(next|prev)$"))
 
     application.run_polling()
 

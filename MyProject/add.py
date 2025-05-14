@@ -2,10 +2,10 @@ import datetime
 import os
 from telegram.ext import ConversationHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from config import COVERS_DIR
-from data import db_session
-from data.books import Book
-from data.films import Film
+from MyProject.config import COVERS_DIR
+from MyProject.data import db_session
+from MyProject.data.books import Book
+from MyProject.data.films import Film
 
 
 TYPE, BOOK_TITLE, BOOK_AUTHOR, BOOK_YEAR, BOOK_GENRE, BOOK_LINK, FILM_TITLE, FILM_DIRECTOR, FILM_YEAR, \
@@ -179,11 +179,11 @@ async def finish_step(update, context, chat_id):
     session = db_session.create_session()
 
     try:
-        if context.user_data['type'] == "Книга":
+        if context.user_data['type'] == "book":
             item = Book(
                 title=context.user_data['title'],
                 author=context.user_data.get('author'),
-                year=context.user_data.get('year'),
+                year=int(context.user_data.get('year')),
                 genre=context.user_data.get('genre'),
                 link=context.user_data.get('link'),
                 cover=context.user_data.get('cover'),
@@ -193,9 +193,9 @@ async def finish_step(update, context, chat_id):
             item = Film(
                 title=context.user_data['title'],
                 director=context.user_data.get('director'),
-                year=context.user_data.get('year'),
+                year=int(context.user_data.get('year')),
                 genre=context.user_data.get('genre'),
-                duration=context.user_data.get('duration'),
+                duration=int(context.user_data.get('duration')),
                 rating=context.user_data.get('rating'),
                 link=context.user_data.get('link'),
                 cover=context.user_data.get('cover'),
@@ -207,14 +207,22 @@ async def finish_step(update, context, chat_id):
 
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f'⚠️ Произошла ошибка. Попробуйте еще раз.'
+            text=f'✅ Элемент успешно добавлен в каталог!'
         )
 
     except Exception as e:
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f'✅ Элемент успешно добавлен в каталог!'
+            text=f'⚠️ Произошла ошибка: {str(e)}. Попробуйте еще раз.'
         )
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=f'Попробуйте еще раз.'
+        )
+        session.rollback()
+
+    finally:
+        session.close()
 
     return ConversationHandler.END
 
@@ -226,7 +234,7 @@ async def skip_cover(update, context):
     context.user_data['cover'] = None
     await context.bot.send_message(
         chat_id=query.message.chat_id,
-        text=f'Пропускаем добавление зображения'
+        text=f'Пропускаем добавление изображения'
     )
     await finish_step(update, context, query.message.chat_id)
 

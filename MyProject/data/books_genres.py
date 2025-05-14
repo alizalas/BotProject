@@ -1,5 +1,5 @@
 import sqlalchemy
-from .db_session import SqlAlchemyBase
+from MyProject.data.db_session import SqlAlchemyBase
 
 
 class BooksGenre(SqlAlchemyBase):
