@@ -1,3 +1,5 @@
+import os
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from MyProject.config import PAGINATION_CNT
 
@@ -56,6 +58,23 @@ async def finish_result_format(update, context, chat_id):
         reply_markup=InlineKeyboardMarkup(keyboard),
         parse_mode="HTML"
     )
+
+    if len(page_results) == 1:
+        cover = page_results[0].cover
+        if cover and os.path.exists(cover):
+            if kind == "book":
+                await context.bot.send_message(
+                    chat_id=chat_id,
+                    text="Обложка книги:",
+                )
+            else:
+                await context.bot.send_message(
+                    chat_id=chat_id,
+                    text="Постер к фильму:",
+                )
+            await update.message.reply_photo(
+                photo=open(cover, 'rb'),
+            )
 
 
 async def pagination(update, context):
