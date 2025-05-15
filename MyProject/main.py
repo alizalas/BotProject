@@ -110,18 +110,18 @@ def main():
         entry_points=[CommandHandler('add', add.first_step)],
         states={
             add.TYPE: [CallbackQueryHandler(add.second_step)],
-            add.BOOK_TITLE: [MessageHandler(filters.TEXT, add.third_step_books)],
-            add.BOOK_AUTHOR: [MessageHandler(filters.TEXT, add.fourth_step_books)],
-            add.BOOK_YEAR: [MessageHandler(filters.TEXT, add.fifth_step_books)],
-            add.BOOK_GENRE: [MessageHandler(filters.TEXT, add.sixth_step_books)],
-            add.BOOK_LINK: [MessageHandler(filters.TEXT, add.seventh_step_books)],
-            add.FILM_TITLE: [MessageHandler(filters.TEXT, add.third_step_films)],
-            add.FILM_DIRECTOR: [MessageHandler(filters.TEXT, add.fourth_step_films)],
-            add.FILM_YEAR: [MessageHandler(filters.TEXT, add.fifth_step_films)],
-            add.FILM_GENRE: [MessageHandler(filters.TEXT, add.sixth_step_films)],
-            add.FILM_DURATION: [MessageHandler(filters.TEXT, add.seventh_step_films)],
+            add.BOOK_TITLE: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.third_step_books)],
+            add.BOOK_AUTHOR: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.fourth_step_books)],
+            add.BOOK_YEAR: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.fifth_step_books)],
+            add.BOOK_GENRE: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.sixth_step_books)],
+            add.BOOK_LINK: [MessageHandler(filters.TEXT& ~filters.COMMAND, add.seventh_step_books)],
+            add.FILM_TITLE: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.third_step_films)],
+            add.FILM_DIRECTOR: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.fourth_step_films)],
+            add.FILM_YEAR: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.fifth_step_films)],
+            add.FILM_GENRE: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.sixth_step_films)],
+            add.FILM_DURATION: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.seventh_step_films)],
             add.FILM_RATING: [CallbackQueryHandler(add.eighth_step_films)],
-            add.FILM_LINK: [MessageHandler(filters.TEXT, add.ninth_step_films)],
+            add.FILM_LINK: [MessageHandler(filters.TEXT & ~filters.COMMAND, add.ninth_step_films)],
             add.COVER: [CallbackQueryHandler(add.skip_cover, pattern='^skip_upload$'),
                         MessageHandler(filters.PHOTO, add.penultimate_step)]
         },
@@ -134,7 +134,7 @@ def main():
         entry_points=[CommandHandler('search', search.first_step)],
         states={
             search.TYPE: [CallbackQueryHandler(search.second_step)],
-            search.SEARCH_QUERY: [MessageHandler(filters.TEXT, search.third_step)]
+            search.SEARCH_QUERY: [MessageHandler(filters.TEXT & ~filters.COMMAND, search.third_step)]
         },
         fallbacks=[CommandHandler('cancel', search.cancel)]
     )
