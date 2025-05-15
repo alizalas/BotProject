@@ -1,9 +1,5 @@
 from telegram.ext import ConversationHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from MyProject.data.authors import Author
-from MyProject.data.books_genres import BooksGenre
-from MyProject.data.directors import Director
-from MyProject.data.films_genres import FilmsGenre
 from MyProject.functions import first_result_format
 from MyProject.config import COVERS_DIR, PAGINATION_CNT
 from MyProject.data import db_session
@@ -19,7 +15,7 @@ async def first_step(update, context):
         [InlineKeyboardButton("Фильмы", callback_data="film")],
     ]
     await update.message.reply_text(
-        "🔍 Выберите тип для поиска:",
+        "🔍 Выберите, что хотите найти:",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
     return TYPE
@@ -31,20 +27,21 @@ async def second_step(update, context):
 
     choice = query.data
     context.user_data['type'] = choice
+    message = "Введите параметры поиска через запятую в формате:\n{form}\nЕсли Вы не хотите искать по какому-то полю, то оставьте на его месте прочерк '-'\nПримеры:\n{examples}"
 
     if choice == 'book':
         await context.bot.send_message(
             chat_id=query.message.chat_id,
-            text="Введите параметры поиска через запятую:\n"
-                 "Формат: <название>, <автор>, <год>, <жанр>\n"
-                 "Пример: Гарри Поттер, Роулинг, 2001, фэнтези"
+            text=message.format(form="<название>, <автор>, <год>, <жанр>",
+                                examples="Война и мир, Л.Н. Толстой, 1867, роман-эпопея\n"
+                                         "Отцы и дети, И.С. Тургенев, -, -")
         )
     else:
         await context.bot.send_message(
             chat_id=query.message.chat_id,
-            text="Введите параметры поиска через запятую:\n"
-                 "Формат: <название>, <режиссёр>, <год>, <жанр>, <продолжительность>, <рейтинг>\n"
-                 "Пример: Гарри Поттер, Роулинг, 2001, фэнтези, 4.5"
+            text=message.format(form="<название>, <режиссёр>, <год>, <жанр>, <продолжительность>, <рейтинг>",
+                                examples="Война и мир, С.Ф. Бондарчук, 1967, эпическая военная драма, 403, 8\n"
+                                         "Отцы и дети, -, 1974, -, 165, -")
         )
 
     return SEARCH_QUERY
@@ -63,7 +60,7 @@ async def third_step(update, context):
 
             query = session.query(Book).filter(Book.user_id == update.effective_user.id)
             if title:
-                query = query.filter(Book.title == title)
+                query = query.filter(Book.title.ilike(f"%{title}%"))
             if author:
                 # author_id = session.query(Author).filter(Author.name == author)
                 # if not author_id:
@@ -71,9 +68,9 @@ async def third_step(update, context):
                 #     session.add(new_author)
                 #     session.commit()
                 #     author_id = new_author.id
-                query = query.filter(Book.author == author)
+                query = query.filter(Book.author.ilike(f"%{author}%"))
             if year:
-                query = query.filter(Book.year == year)
+                query = query.filter(Book.year == int(year))
             if genre:
                 # genre_id = session.query(BooksGenre).filter(BooksGenre.name == genre)
                 # if not genre_id:
@@ -81,7 +78,7 @@ async def third_step(update, context):
                 #     session.add(new_genre)
                 #     session.commit()
                 #     genre_id = new_genre.id
-                query = query.filter(Book.genre == genre)
+                query = query.filter(Book.genre.ilike(f"%{genre}%"))
 
             results = query.order_by(Book.title).all()
 
@@ -94,7 +91,7 @@ async def third_step(update, context):
 
             query = session.query(Film).filter(Film.user_id == update.effective_user.id)
             if title:
-                query = query.filter(Film.title == title)
+                query = query.filter(Film.title.ilike(f"%{title}%"))
             if director:
                 # director_id = session.query(Director).filter(Director.name == director)
                 # if not director_id:
@@ -102,9 +99,9 @@ async def third_step(update, context):
                 #     session.add(new_director)
                 #     session.commit()
                 #     director_id = new_director.id
-                query = query.filter(Film.director == director)
+                query = query.filter(Film.director.ilike(f"%{director}%"))
             if year:
-                query = query.filter(Film.year == year)
+                query = query.filter(Film.year == int(year))
             if genre:
                 # genre_id = session.query(FilmsGenre).filter(FilmsGenre.name == genre)
                 # if not genre_id:
@@ -112,11 +109,11 @@ async def third_step(update, context):
                 #     session.add(new_genre)
                 #     session.commit()
                 #     genre_id = new_genre.id
-                query = query.filter(Film.genre == genre)
+                query = query.filter(Film.genre.ilike(f"%{genre}%"))
             if duration:
-                query = query.filter(Film.duration == duration)
+                query = query.filter(Film.duration == int(duration))
             if rating:
-                query = query.filter(Film.rating == rating)
+                query = query.filter(Film.rating == int(rating))
 
             results = query.order_by(Film.title).all()
 

@@ -47,13 +47,13 @@ async def second_step(update, context):
 
 async def third_step_books(update, context):
     context.user_data['title'] = update.message.text
-    await update.message.reply_text('✏️ Введите автора книги:')
+    await update.message.reply_text('✏️ Введите автора:')
     return BOOK_AUTHOR
 
 
 async def third_step_films(update, context):
     context.user_data['title'] = update.message.text
-    await update.message.reply_text('📽️ Введите режиссёра фильма:')
+    await update.message.reply_text('📽️ Введите режиссёра:')
     return FILM_DIRECTOR
 
 
@@ -213,7 +213,7 @@ async def finish_step(update, context, chat_id):
     except Exception as e:
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f'⚠️ Произошла ошибка: {str(e)}. Попробуйте еще раз.'
+            text=f'⚠️ Произошла ошибка: {str(e)}'
         )
         await context.bot.send_message(
             chat_id=chat_id,
