@@ -11,21 +11,23 @@
 4. Вывод в телеграм-бот обложки/постера, если нужно отобразить только одну запись из каталога (если пользователь при добавлении элемента в каталог приложил изображение)
 
 ## Структура проекта
+```
 BotProject/
 ├── MyProject/
 │   ├── covers/
 │   │   └── изображения обложек/постеров
 │   ├── data/
-│   │   └── __all_models.py
-│   │   └── books.py
-│   │   └── db_session.py
+│   │   ├── __all_models.py
+│   │   ├── books.py
+│   │   ├── db_session.py
 │   │   └── films.py
-│   └── add.py
-|   └── config.py
-│   └── functions.py
-│   └── main.py
+│   ├── add.py
+│   ├── config.py
+│   ├── functions.py
+│   ├── main.py
 │   └── search.py
 ├── db/
 │   └── films_books.db
+```
 
 ### Больше информации о приложении в презентации - ()
