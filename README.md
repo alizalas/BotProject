@@ -31,4 +31,4 @@ BotProject/
 └── requirements.txt
 ```
 
-### Больше информации о приложении в презентации - ()
+### Больше информации о приложении в презентации - [https://docs.google.com/presentation/d/1RDZkVYqpf0_WSP-hd6Sc-zZuZYZK7YVtB3reETBQUXY/edit?slide=id.p#slide=id.p]
